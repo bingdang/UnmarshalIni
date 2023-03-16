@@ -26,6 +26,7 @@ type Config struct {
 	DbCfg  Mysql  `ini:"mysql"`
 }
 
+// 数据分割
 func datahandling(data []byte) (dataline []string, err error) {
 	//数据按行分割
 	datalinetmp := strings.Split(string(data), "\n")
@@ -46,6 +47,8 @@ func datahandling(data []byte) (dataline []string, err error) {
 // 大标签处理
 func bigLabel(line string, iniTF reflect.Type) (bigField string, err error) {
 	line = line[1 : len(line)-1]
+
+	//拿到大标签的值
 	for i := 0; i < iniTF.Elem().NumField(); i++ {
 		if line == iniTF.Elem().Field(i).Tag.Get("ini") {
 			bigField = iniTF.Elem().Field(i).Name
@@ -60,9 +63,8 @@ func normalData(FieldName string, line string, iniVF reflect.Value) (err error) 
 	normalK := line[:strings.Index(line, "=")]
 	normalV := line[strings.Index(line, "=")+1:]
 
-	//获取当前的结构体
+	//通过大标签的值获取对应的结构体的结构体
 	instantlyCarrier := iniVF.Elem().FieldByName(FieldName)
-
 	//遍历结构体对比key和结构体tag获取结构体内字段名称
 	var keyName string
 	for i := 0; i < instantlyCarrier.Type().NumField(); i++ {
