@@ -12,12 +12,13 @@ type Server struct {
 }
 
 type Mysql struct {
-	Username string  `ini:"username"`
-	Passwd   string  `ini:"passwd"`
-	Database string  `ini:"database"`
-	Host     string  `ini:"host"`
-	Port     int     `ini:"port"`
-	Timeout  float64 `ini:"timeout"`
+	Username            string  `ini:"username"`
+	Passwd              string  `ini:"passwd"`
+	Database            string  `ini:"database"`
+	Host                string  `ini:"host"`
+	Port                int     `ini:"port"`
+	Timeout             float64 `ini:"timeout"`
+	DefaultCharacterSet string  `ini:"default-character-set"`
 }
 
 type Config struct {
@@ -42,7 +43,7 @@ func datahandling(data []byte) (dataline []string, err error) {
 	return
 }
 
-//大标签处理
+// 大标签处理
 func bigLabel(line string, iniTF reflect.Type) (bigField string, err error) {
 	line = line[1 : len(line)-1]
 	for i := 0; i < iniTF.Elem().NumField(); i++ {
@@ -54,7 +55,7 @@ func bigLabel(line string, iniTF reflect.Type) (bigField string, err error) {
 	return
 }
 
-//普通数据处理
+// 普通数据处理
 func normalData(FieldName string, line string, iniVF reflect.Value) (err error) {
 	normalK := line[:strings.Index(line, "=")]
 	normalV := line[strings.Index(line, "=")+1:]
@@ -62,7 +63,7 @@ func normalData(FieldName string, line string, iniVF reflect.Value) (err error) 
 	//获取当前的结构体
 	instantlyCarrier := iniVF.Elem().FieldByName(FieldName)
 
-	//获取结构体内字段名称
+	//遍历结构体对比key和结构体tag获取结构体内字段名称
 	var keyName string
 	for i := 0; i < instantlyCarrier.Type().NumField(); i++ {
 		if normalK == instantlyCarrier.Type().Field(i).Tag.Get("ini") {
