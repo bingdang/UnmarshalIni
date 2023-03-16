@@ -1,7 +1,7 @@
 # UnmarshalIni
 UnmarshalIni
 ```
-felix@MacBook-Pro 2023Project % cat ./
+felix@MacBook-Pro 2023Project % cat ./config.ini
 #this is comment
 ;this a comment
 ;[]表示一个section
