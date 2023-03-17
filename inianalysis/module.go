@@ -73,6 +73,7 @@ func normalData(FieldName string, line string, iniVF reflect.Value) (err error) 
 		}
 	}
 
+	//根据字段名称，拿到字段对应的类型实现类型断言。判断类型并赋值
 	normalkValue := instantlyCarrier.FieldByName(keyName)
 	switch normalkValue.Type().Kind() {
 	case reflect.String:
