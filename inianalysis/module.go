@@ -70,6 +70,7 @@ func normalData(FieldName string, line string, iniVF reflect.Value) (err error) 
 	for i := 0; i < instantlyCarrier.NumField(); i++ {
 		if normalK == instantlyCarrier.Type().Field(i).Tag.Get("ini") {
 			keyName = instantlyCarrier.Type().Field(i).Name
+			break
 		}
 	}
 
