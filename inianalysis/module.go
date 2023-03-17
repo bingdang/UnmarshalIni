@@ -63,11 +63,11 @@ func normalData(FieldName string, line string, iniVF reflect.Value) (err error) 
 	normalK := line[:strings.Index(line, "=")]
 	normalV := line[strings.Index(line, "=")+1:]
 
-	//通过大标签的值获取对应的结构体的结构体
+	//通过大标签的值获取对应的结构体的结构体 如SvcCfg
 	instantlyCarrier := iniVF.Elem().FieldByName(FieldName)
 	//遍历结构体对比key和结构体tag获取结构体内字段名称
 	var keyName string
-	for i := 0; i < instantlyCarrier.Type().NumField(); i++ {
+	for i := 0; i < instantlyCarrier.NumField(); i++ {
 		if normalK == instantlyCarrier.Type().Field(i).Tag.Get("ini") {
 			keyName = instantlyCarrier.Type().Field(i).Name
 		}
